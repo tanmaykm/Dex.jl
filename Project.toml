@@ -1,5 +1,8 @@
 name = "Dex"
 uuid = "90177ba7-a91c-5852-bc95-36ac82816823"
 
+[deps]
+BinaryProvider = "b99e7846-7c00-51b0-8f62-c81ae34c0232"
+
 [compat]
 julia = "≥ 1.0.0"
