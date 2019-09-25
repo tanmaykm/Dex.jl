@@ -1,0 +1,5 @@
+name = "Dex"
+uuid = "90177ba7-a91c-5852-bc95-36ac82816823"
+
+[compat]
+julia = "≥ 1.0.0"
