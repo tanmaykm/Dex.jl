@@ -78,6 +78,7 @@ function test()
 
     @info("starting Dex")
     start(dex)
+    sleep(2)
     @test isfile(Dex.pidfile(dex))
     @test isrunning(dex)
 
@@ -85,12 +86,16 @@ function test()
 
     @info("restarting Dex")
     restart(dex)
+    sleep(2)
+    @test isfile(Dex.pidfile(dex))
     @test isrunning(dex)
 
     test_dex_config()
 
     @info("stopping Dex")
     stop(dex)
+    sleep(2)
+    @test !isfile(Dex.pidfile(dex))
     @test !isrunning(dex)
     @test isfile(Dex.logfile(dex))
 
