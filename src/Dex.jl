@@ -2,6 +2,9 @@ module Dex
 
 include("../deps/deps.jl")
 
+export DexCtx
+export setup, start, stop, restart, isrunning
+
 const webtemplates = abspath(joinpath(dirname(@__FILE__), "../deps/usr/lib/webtemplates.tar.gz"))
 
 function __init__()
