@@ -66,8 +66,7 @@ function test_dex_config()
 end
 
 function test()
-    #workdir = mktempdir()
-    workdir = "/tmp/dex"
+    workdir = mktempdir()
     mkpath(workdir)
     cfgfile = createconfig(workdir)
     dex = DexCtx(workdir)
@@ -85,7 +84,7 @@ function test()
     test_dex_config()
 
     @info("restarting Dex")
-    restart(dex)
+    restart(dex; delay_seconds=2)
     sleep(2)
     @test isfile(Dex.pidfile(dex))
     @test isrunning(dex)
