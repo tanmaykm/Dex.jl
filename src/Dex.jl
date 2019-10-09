@@ -64,7 +64,7 @@ function start(ctx::DexCtx)
     config = conffile(ctx)
     command = Cmd(`$dex serve $config`; detach=true, dir=ctx.workdir)
     log = logfile(ctx)
-    redirected_command = pipeline(command, stdout=log, stderr=log)
+    redirected_command = pipeline(command, stdout=log, stderr=log, append=true)
     ctx.proc = run(redirected_command; wait=false)
     ctx.pid = getpid(ctx.proc)
     open(joinpath(logsdir(ctx), "dex.pid"), "a") do file
