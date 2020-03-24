@@ -98,6 +98,22 @@ function test()
     @test !isrunning(dex)
     @test isfile(Dex.logfile(dex))
 
+    @info("starting Dex (with custom logger)")
+    pipe = PipeBuffer()
+    start(dex; log=pipe)
+    sleep(2)
+    @test isfile(Dex.pidfile(dex))
+    @test isrunning(dex)
+
+    @info("stopping Dex (with custom logger)")
+    stop(dex)
+    sleep(2)
+    @test !isfile(Dex.pidfile(dex))
+    @test !isrunning(dex)
+    logbytes = readavailable(pipe)
+    @test !isempty(logbytes)
+    @test findfirst("listening", String(logbytes)) !== nothing
+
     @test_throws Exception setup(dex, cfgfile)
     @test nothing === setup(dex, cfgfile; force=true)
 
