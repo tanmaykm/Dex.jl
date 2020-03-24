@@ -104,10 +104,10 @@ function stop(ctx::DexCtx)
     nothing
 end
 
-function restart(ctx::DexCtx; delay_seconds::Int=0)
+function restart(ctx::DexCtx; delay_seconds::Int=0, log=logfile(ctx), append::Bool=isa(log,AbstractString))
     stop(ctx)
     (delay_seconds > 0) && sleep(delay_seconds)
-    start(ctx)
+    start(ctx; log=log, append=append)
 end
 
 end
