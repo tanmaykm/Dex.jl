@@ -60,11 +60,10 @@ function setup(ctx::DexCtx, configfile::String, templates::Union{String,Nothing}
     nothing
 end
 
-function start(ctx::DexCtx)
+function start(ctx::DexCtx; log=logfile(ctx), append::Bool=isa(log,AbstractString))
     config = conffile(ctx)
     command = Cmd(`$dex serve $config`; detach=true, dir=ctx.workdir)
-    log = logfile(ctx)
-    redirected_command = pipeline(command, stdout=log, stderr=log, append=true)
+    redirected_command = pipeline(command, stdout=log, stderr=log, append=append)
     ctx.proc = run(redirected_command; wait=false)
     ctx.pid = getpid(ctx.proc)
     open(joinpath(logsdir(ctx), "dex.pid"), "a") do file
