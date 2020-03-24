@@ -67,6 +67,10 @@ end
 
 function test()
     workdir = mktempdir()
+
+    dex = DexCtx(workdir)
+    @test !isrunning(dex)
+
     mkpath(workdir)
     cfgfile = createconfig(workdir)
     dex = DexCtx(workdir)
@@ -104,6 +108,10 @@ function test()
     sleep(2)
     @test isfile(Dex.pidfile(dex))
     @test isrunning(dex)
+
+    @info("checking new DexCtx")
+    dex2 = DexCtx(workdir)
+    @test isrunning(dex2)
 
     @info("stopping Dex (with custom logger)")
     stop(dex)
