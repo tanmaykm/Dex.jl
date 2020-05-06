@@ -1,18 +1,9 @@
 module Dex
 
-include("../deps/deps.jl")
+using Dex_jll
 
 export DexCtx
 export setup, start, stop, restart, isrunning
-
-const webtemplates = abspath(joinpath(dirname(@__FILE__), "../deps/usr/lib/webtemplates.tar.gz"))
-
-function __init__()
-    check_deps()
-    if !isfile(webtemplates)
-        error("$(webtemplates) does not exist, Please re-run Pkg.build(\"Dex\"), and restart Julia.")
-    end
-end
 
 mutable struct DexCtx
     workdir::String
@@ -62,9 +53,11 @@ end
 
 function start(ctx::DexCtx; log=logfile(ctx), append::Bool=isa(log,AbstractString))
     config = conffile(ctx)
-    command = Cmd(`$dex serve $config`; detach=true, dir=ctx.workdir)
-    redirected_command = pipeline(command, stdout=log, stderr=log, append=append)
-    ctx.proc = run(redirected_command; wait=false)
+    dex() do dex_path
+        command = Cmd(`$dex_path serve $config`; detach=true, dir=ctx.workdir)
+        redirected_command = pipeline(command, stdout=log, stderr=log, append=append)
+        ctx.proc = run(redirected_command; wait=false)
+    end
     ctx.pid = getpid(ctx.proc)
     open(joinpath(logsdir(ctx), "dex.pid"), "a") do file
         println(file, ctx.pid)
@@ -74,10 +67,14 @@ end
 
 isrunning(ctx::DexCtx) = (ctx.pid !== nothing) ? isrunning(ctx, ctx.pid) : false
 function isrunning(ctx::DexCtx, pid::Int)
+    dex_path = dex() do path
+        path
+    end
+
     cmdlinefile = "/proc/$pid/cmdline"
     if isfile(cmdlinefile)
         cmdline = read(cmdlinefile, String)
-        if occursin(dex, cmdline) && occursin(confdir(ctx), cmdline)
+        if occursin(dex_path, cmdline) && occursin(confdir(ctx), cmdline)
             # process still running
             return true
         end
