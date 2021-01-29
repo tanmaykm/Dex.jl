@@ -1,7 +1,7 @@
 # Dex.jl
 
-[![Build Status](https://travis-ci.org/tanmaykm/Dex.jl.png)](https://travis-ci.org/tanmaykm/Dex.jl)
+[![Build Status](https://github.com/tanmaykm/Dex.jl/workflows/CI/badge.svg)](https://github.com/tanmaykm/Dex.jl/actions?query=workflow%3ACI+branch%3Amaster)
 
-[![Coverage Status](https://coveralls.io/repos/github/tanmaykm/Dex.jl/badge.svg?branch=master)](https://coveralls.io/github/tanmaykm/Dex.jl?branch=master)
+[![codecov](https://codecov.io/gh/tanmaykm/Dex.jl/branch/master/graph/badge.svg?token=HBK51QY3TP)](https://codecov.io/gh/tanmaykm/Dex.jl)
 
 Launch and manage [Dex](https://github.com/dexidp/dex) from Julia
