@@ -14,8 +14,15 @@ mutable struct DexCtx
         ctx = new(workdir, nothing, nothing)
         pfile = pidfile(ctx)
         if isfile(pfile)
-            ctx.pid = parse(Int, read(pidfile(ctx), String))
-            isrunning(ctx)
+            ctx.pid = try
+                parse(Int, read(pidfile(ctx), String))
+            catch ex
+                rm(pidfile)
+                rethrow(ex)
+            end
+            if !isrunning(ctx)
+                ctx.pid = nothing
+            end
         end
         ctx
     end
