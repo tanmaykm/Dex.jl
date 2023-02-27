@@ -17,6 +17,7 @@ mutable struct DexCtx
             ctx.pid = try
                 parse(Int, read(pidfile(ctx), String))
             catch ex
+                @info "removing corrupted pid file"
                 rm(pidfile)
                 rethrow(ex)
             end
