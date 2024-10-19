@@ -3,14 +3,14 @@ uuid = "90177ba7-a91c-5852-bc95-36ac82816823"
 keywords = ["dex", "julia"]
 license = "MIT"
 desc = "Launch and manage Dex from Julia"
-version = "0.5.1"
+version = "0.5.2"
 
 [deps]
 Dex_jll = "f1ef5e10-671a-599f-ac25-3c68827556ba"
 
 [compat]
 julia = "1.3"
-Dex_jll = "2.30"
+Dex_jll = "2.41"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
